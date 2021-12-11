@@ -18,78 +18,64 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
-  /movie:
+  /movie/{movie_id}:
     post:
       description: Adds a movie to the system
-      responses:
-        '201':
-          description: item created
-        '400':
-          description: 'invalid input, object invalid'
-        '409':
-          description: an existing item already exists
-
-  /inventory:
-    get:
-      tags:
-        - developers
-      summary: searches inventory
-      operationId: searchInventory
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
-      parameters:
-        - in: query
-          name: searchString
-          description: pass an optional search string for looking up inventory
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: skip
-          description: number of records to skip for pagination
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-        - in: query
-          name: limit
-          description: maximum number of records to return
-          schema:
-            type: integer
-            format: int32
-            minimum: 0
-            maximum: 50
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/InventoryItem'
-        '400':
-          description: bad input parameter
-    post:
-      tags:
-        - admins
-      summary: adds an inventory item
-      operationId: addInventory
-      description: Adds an item to the system
-      responses:
-        '201':
-          description: item created
-        '400':
-          description: 'invalid input, object invalid'
-        '409':
-          description: an existing item already exists
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InventoryItem'
+              $ref: '#/components/schemas/MovieItem'
         description: Inventory item to add
+      responses:
+        '201':
+          description: movie created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing movie already exists
+    put:
+      description: Update a movie in the system
+      parameters:
+        - in: path
+          name: movie_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id of the Movie to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieItem'
+        description: Inventory item to add
+      responses:
+        '200':
+          description: movie updated
+    delete:
+      description: Delete a movie in the system
+      parameters:
+        - in: path
+          name: movie_id
+          schema:
+            type: integer
+          required: true
+          description: Numeric id of the Movie to delete
+      responses:
+        '200':
+          description: movie deleted
+  /report:
+    get:
+      description: |
+        get a list of actors aggregated by the years of release
+        of the films in which he starred, with the number of films released this year
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
 components:
   schemas:
     MovieItem:
@@ -108,40 +94,30 @@ components:
         cast:
           type: array
           items:
-            $ref: '#/components/schemas/CastItem'
-    InventoryItem:
-      type: object
-      required:
-        - id
-        - name
-        - manufacturer
-        - releaseDate
-      properties:
-        id:
-          type: string
-          format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
-        name:
-          type: string
-          example: Widget Adapter
-        releaseDate:
-          type: string
-          format: date-time
-          example: '2016-08-29T09:12:33.001Z'
-        manufacturer:
-          $ref: '#/components/schemas/Manufacturer'
-    Manufacturer:
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          example: ACME Corporation
-        homePage:
-          type: string
-          format: url
-          example: 'https://www.acme-corp.com'
-        phone:
-          type: string
-          example: 408-867-5309
-      type: object
+            type: string
+            example: Irene Dunne
+        genres:
+          type: array
+          items:
+            type: string
+            example: Musical
+    Report:
+      type: array
+      items:
+        type: object
+        required:
+          - actor
+          - year
+          - number_of_movies
+        properties:
+          actor:
+            type: string
+            example: Irene Dunne
+          year:
+            type: integer
+            format: int64
+            example: 2020
+          number_of_movies:
+            type: integer
+            format: int64
+            example: 5
