@@ -18,7 +18,7 @@ tags:
   - name: developers
     description: Operations available to regular developers
 paths:
-  /movie/{movie_id}:
+  /movie:
     post:
       description: Adds a movie to the system
       requestBody:
@@ -34,6 +34,7 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing movie already exists
+  /movie/{movie_id}:
     put:
       description: Update a movie in the system
       parameters:
