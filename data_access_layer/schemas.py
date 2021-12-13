@@ -1,3 +1,11 @@
+"""
+Marshmallow schemas for the data validation
+
+Import as:
+import data_access_layer.schemas as schemas
+"""
+
+
 from marshmallow import Schema, fields
 
 

@@ -20,5 +20,8 @@ https://web.archive.org/web/20190901011222/http://derrickgilland.com/posts/demys
 https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 https://stackoverflow.com/questions/39891387/better-way-convert-json-to-sqlalchemy-object/39891537
 https://marshmallow.readthedocs.io/en/stable/examples.html
+https://flask-restful.readthedocs.io/en/latest/
+https://www.jetbrains.com/help/pycharm/http-client-in-product-code-editor.html
+
 
 
