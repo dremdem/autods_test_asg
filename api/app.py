@@ -1,3 +1,10 @@
+"""
+The main Flask application
+
+Import as:
+import api.app as app
+"""
+
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
@@ -5,7 +12,8 @@ from flask_restful import Resource, Api
 import data_access_layer.services as services
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////db.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../data_access_layer/db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 api = Api(app)
 

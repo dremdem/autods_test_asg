@@ -1,3 +1,11 @@
+"""
+Movie models
+
+Import as:
+import data_access_layer.model.movie as models_movie
+"""
+
+
 from sqlalchemy import Column, Integer, String
 
 from .base import Base
