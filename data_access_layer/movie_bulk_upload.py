@@ -57,7 +57,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Movie bulk loader')
     parser.add_argument(
-        'filepath',
+        "filepath",
         help='File path to JSON-file with the movies that have to be imported.',
         type=argparse.FileType('r', encoding='UTF-8'))
     parser.add_argument(
@@ -66,11 +66,18 @@ if __name__ == '__main__':
         default=logging.INFO,
         type=lambda x: getattr(logging, x),
         help="Configure the logging level.")
+    parser.add_argument(
+        "-d",
+        "--delete",
+        action='store_true',
+        help='Delete the data before the upload.')
     args = parser.parse_args()
     logging.basicConfig(level=args.log_level)
     logger.info(f"Movie bulk loader started at:"
                 f"{dt.datetime.now().strftime('%m/%d/%Y, %H:%M:%S')} "
                 f"for the file: {args.filepath.name}")
+    if args.delete:
+        services.kill_em_all()
     upload(args.filepath)
 
 

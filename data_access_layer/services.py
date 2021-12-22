@@ -4,13 +4,11 @@ All logic and DB operations placed here.
 Import as:
 import data_access_layer.services as services
 """
-
 from typing import Type
-import datetime as dt
 
 from marshmallow import ValidationError
 from marshmallow import Schema
-from sqlalchemy.orm import Session
+from sqlalchemy import MetaData
 from sqlalchemy.sql.expression import ClauseElement
 
 import api.app as app
@@ -18,6 +16,7 @@ import data_access_layer.model.cast as cast
 import data_access_layer.model.genre as genre
 import data_access_layer.model.movie as movie
 import data_access_layer.schemas as schemas
+
 
 session = app.db.session
 
@@ -72,3 +71,10 @@ def create_movie_from_dict(json_movie: dict) -> movie.Movie:
     session.commit()
 
 
+def kill_em_all() -> None:
+    """Delete all the data from the database"""
+    metadata = MetaData()
+    metadata.reflect(bind=app.engine)
+
+    for table in reversed(metadata.sorted_tables):
+        session.execute(table.delete())
