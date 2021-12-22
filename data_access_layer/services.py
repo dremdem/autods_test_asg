@@ -5,9 +5,11 @@ Import as:
 import data_access_layer.services as services
 """
 
+from typing import Type
 import datetime as dt
 
 from marshmallow import ValidationError
+from marshmallow import Schema
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import ClauseElement
 
@@ -20,9 +22,9 @@ import data_access_layer.schemas as schemas
 session = app.db.session
 
 
-def validate_movie(data: dict):
+def validate_movie(movie_schema: Type[Schema], data: dict):
     try:
-        schemas.MovieCreateSchema().load(data)
+        movie_schema().load(data)
         return True
     except ValidationError as err:
         print(err.messages)
@@ -31,7 +33,7 @@ def validate_movie(data: dict):
 
 
 def create_movie(data: dict):
-    validate_movie(data)
+    validate_movie(schemas.MovieCreateSchema, data)
 
 
 def get_or_create(model, defaults=None, **kwargs):

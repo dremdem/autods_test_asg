@@ -25,7 +25,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieItem'
+              $ref: '#/components/schemas/MovieCreateItem'
         description: Inventory item to add
       responses:
         '201':
@@ -48,7 +48,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieItem'
+              $ref: '#/components/schemas/MovieCreateItem'
         description: Inventory item to add
       responses:
         '200':
@@ -79,7 +79,7 @@ paths:
                 $ref: '#/components/schemas/Report'
 components:
   schemas:
-    MovieItem:
+    MovieCreateItem:
       type: object
       required:
         - title
@@ -95,13 +95,13 @@ components:
         cast:
           type: array
           items:
-            type: string
-            example: Irene Dunne
+            type: integer
+            example: 123
         genres:
           type: array
           items:
-            type: string
-            example: Musical
+            type: integer
+            example: 234
     Report:
       type: array
       items:

@@ -12,6 +12,7 @@ import logging
 import tqdm
 
 import data_access_layer.services as services
+import data_access_layer.schemas as schemas
 
 
 logger = logging.getLogger(__name__)
@@ -47,7 +48,7 @@ def upload(filename: argparse.FileType) -> None:
     logger.info("Start movies bulk upload.")
     data = json.load(filename)
     for json_movie in tqdm.tqdm(data):
-        if services.validate_movie(json_movie):
+        if services.validate_movie(schemas.MovieBulkCreateSchema, json_movie):
             services.create_movie_from_dict(json_movie)
     logger.info("Movies uploaded successfully.")
 
