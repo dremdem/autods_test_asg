@@ -29,4 +29,22 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:5000/movie
+Content-Type: application/json
 
+{
+  "title": "Bananas in the Space!",
+  "year": 2022,
+  "cast": [
+    25,
+    31,
+    32
+  ],
+  "genres": [
+    14,
+    3,
+    36
+  ]
+}
+
+###

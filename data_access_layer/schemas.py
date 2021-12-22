@@ -10,12 +10,12 @@ from marshmallow import Schema, fields
 
 
 class GenreSchema(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer()
     name = fields.String(required=True)
 
 
 class ActorSchema(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer()
     name = fields.String(required=True)
 
 

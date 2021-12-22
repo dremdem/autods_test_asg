@@ -32,7 +32,8 @@ def validate_movie(movie_schema: Type[Schema], data: dict):
 
 
 def create_movie(data: dict):
-    validate_movie(schemas.MovieCreateSchema, data)
+    if validate_movie(schemas.MovieCreateSchema, data):
+        create_movie_from_dict(data)
 
 
 def get_or_create(model, defaults=None, **kwargs):
@@ -55,7 +56,8 @@ def get_or_create(model, defaults=None, **kwargs):
             return instance
 
 
-def create_movie_from_dict(json_movie: dict) -> movie.Movie:
+def create_bulk_movie_from_dict(json_movie: dict) -> None:
+    # TODO(*): Find out why PyCharm warn: Unexpected arguments in the SQLAlchemy models constructors
     db_movie = movie.Movie(
         title=json_movie['title'],
         year=json_movie['year'])
@@ -68,6 +70,19 @@ def create_movie_from_dict(json_movie: dict) -> movie.Movie:
         session.add(cast.ActorMovie(actor_id=db_actor.id, movie_id=db_movie.id))
     for db_genre in genres:
         session.add(genre.GenreMovie(genre_id=db_genre.id, movie_id=db_movie.id))
+    session.commit()
+
+
+def create_movie_from_dict(json_movie: dict) -> None:
+    db_movie = movie.Movie(
+        title=json_movie['title'],
+        year=json_movie['year'])
+    session.add(db_movie)
+    session.commit()
+    for actor_id in json_movie["cast"]:
+        session.add(cast.ActorMovie(actor_id=actor_id, movie_id=db_movie.id))
+    for genre_id in json_movie["genres"]:
+        session.add(genre.GenreMovie(genre_id=genre_id, movie_id=db_movie.id))
     session.commit()
 
 
