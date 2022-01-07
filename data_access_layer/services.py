@@ -8,7 +8,7 @@ from typing import Type
 
 from marshmallow import ValidationError
 from marshmallow import Schema
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, func
 from sqlalchemy.sql.expression import ClauseElement
 
 import api.app as app
@@ -70,6 +70,21 @@ def get_or_create(model, defaults=None, is_commit=False, **kwargs):
             return instance
         else:
             return instance
+
+
+def get_amount_of_movies_by_actor_and_year() -> dict:
+    result = (
+        session
+        .query(cast.Actor.name.label("actor_name"),
+               movie.Movie.year.label("year"),
+               func.count(movie.Movie.id).label("amount_of_movies"))
+        .join(cast.ActorMovie, cast.ActorMovie.actor_id == cast.Actor.id)
+        .join(movie.Movie, movie.Movie.id == cast.ActorMovie.movie_id)
+        .group_by(cast.Actor.name, movie.Movie.year)
+        .all()
+    )
+    amount_schema = schemas.AmountMoviesByActorYear(many=True)
+    return amount_schema.dump(result)
 
 
 def create_bulk_movie_from_dict(json_movie: dict) -> None:

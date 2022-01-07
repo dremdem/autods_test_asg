@@ -119,11 +119,11 @@ components:
       items:
         type: object
         required:
-          - actor
+          - actor_name
           - year
           - number_of_movies
         properties:
-          actor:
+          actor_name:
             type: string
             example: Irene Dunne
           year:

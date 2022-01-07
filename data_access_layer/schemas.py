@@ -48,3 +48,9 @@ class MovieCreateSchema(MovieCreateBaseSchema, CastGenresIDs):
 
 class MovieUpdateSchema(MovieBaseSchema, CastGenresIDs):
     pass
+
+
+class AmountMoviesByActorYear(Schema):
+    actor_name = fields.String(required=True)
+    year = fields.Integer(required=True)
+    amount_of_movies = fields.Integer(required=True)

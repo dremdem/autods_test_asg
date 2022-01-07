@@ -37,8 +37,14 @@ class MovieUpdateDelete(Resource):
         return {'hello': 'world'}
 
 
+class Report(Resource):
+    def get(self):
+        return services.get_amount_of_movies_by_actor_and_year()
+
+
 api.add_resource(MovieCreate, '/movie')
 api.add_resource(MovieUpdateDelete, '/movie/<int:movie_id>')
+api.add_resource(Report, '/report')
 
 
 if __name__ == '__main__':
