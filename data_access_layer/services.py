@@ -93,8 +93,14 @@ def create_bulk_movie_from_dict(json_movie: dict) -> None:
         title=json_movie['title'],
         year=json_movie['year'])
     session.add(db_movie)
-    casts = list(map(lambda x: get_or_create(cast.Actor, name=x),
-                             json_movie['cast']))
+    casts = []
+    for actor_name in json_movie['cast']:
+        try:
+            schemas.actor_name_validator(actor_name)
+            casts.append(get_or_create(cast.Actor, name=actor_name))
+        except ValidationError as err:
+            print(err.messages)
+            print(err.valid_data)
     genres = list(map(lambda x: get_or_create(genre.Genre, name=x),
                                json_movie['genres']))
     for db_actor in casts:

@@ -5,8 +5,9 @@ Import as:
 import data_access_layer.schemas as schemas
 """
 
+ACTOR_NAME_STOP_CHARS = '$()?'
 
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, ValidationError
 
 
 class GenreSchema(Schema):
@@ -14,9 +15,14 @@ class GenreSchema(Schema):
     name = fields.String(required=True)
 
 
+def actor_name_validator(actor_name: str):
+    if any([char in ACTOR_NAME_STOP_CHARS for char in actor_name]):
+        raise ValidationError(f"The actor name: {actor_name} is not valid.")
+
+
 class ActorSchema(Schema):
     id = fields.Integer()
-    name = fields.String(required=True)
+    name = fields.String(required=True, validate=actor_name_validator)
 
 
 class MovieBaseSchema(Schema):
@@ -27,9 +33,11 @@ class MovieBaseSchema(Schema):
 class MovieCreateBaseSchema(MovieBaseSchema):
 
     def __new__(cls):
+        # TODO(*): Too hacky, need to refactor this
         self = super().__new__(cls)
-        self.title.required = True
-        self.year.required = True
+        self._declared_fields['title'].required = True
+        self._declared_fields['year'].required = True
+        return self
 
 
 class CastGenresIDs(Schema):

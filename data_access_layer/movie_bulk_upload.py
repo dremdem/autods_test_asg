@@ -49,7 +49,7 @@ def upload(filename: argparse.FileType) -> None:
     data = json.load(filename)
     for json_movie in tqdm.tqdm(data):
         if services.validate_movie(schemas.MovieBulkCreateSchema, json_movie):
-            services.create_movie_from_dict(json_movie)
+            services.create_bulk_movie_from_dict(json_movie)
     logger.info("Movies uploaded successfully.")
 
 
