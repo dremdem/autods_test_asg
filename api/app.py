@@ -32,6 +32,10 @@ class MovieUpdateDelete(Resource):
         services.update_movie(movie_id, request.json)
         return {'hello': 'world'}
 
+    def delete(self, movie_id: int):
+        services.delete_movie(movie_id)
+        return {'hello': 'world'}
+
 
 api.add_resource(MovieCreate, '/movie')
 api.add_resource(MovieUpdateDelete, '/movie/<int:movie_id>')
