@@ -1,0 +1,48 @@
+@startuml
+
+class GenreSchema {
+    {field} id
+    {field} name
+}
+
+class ActorSchema {
+    {field} id
+    {field} name
+}
+
+class MovieBaseSchema {
+    {field} title
+    {field} year
+}
+
+class MovieCreateBaseSchema
+
+class CastGenresIDs {
+    cast
+    genres
+}
+
+class MovieBulkCreateSchema {
+    cast
+    genres
+}
+
+
+MovieBaseSchema <|-- MovieCreateBaseSchema
+
+CastGenresIDs --* ActorSchema
+CastGenresIDs --* GenreSchema
+
+MovieCreateBaseSchema <|-- MovieBulkCreateSchema
+MovieBulkCreateSchema --* ActorSchema
+MovieBulkCreateSchema --* GenreSchema
+
+
+CastGenresIDs <|-- MovieCreateSchema
+MovieCreateBaseSchema <|-- MovieCreateSchema
+
+MovieBaseSchema <|-- MovieUpdateSchema
+CastGenresIDs <|-- MovieUpdateSchema
+
+@enduml
+

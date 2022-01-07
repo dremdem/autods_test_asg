@@ -20,16 +20,31 @@ class ActorSchema(Schema):
 
 
 class MovieBaseSchema(Schema):
-    title = fields.String(required=True)
-    year = fields.Integer(required=True)
+    title = fields.String()
+    year = fields.Integer()
 
 
-class MovieBulkCreateSchema(MovieBaseSchema):
+class MovieCreateBaseSchema(MovieBaseSchema):
+
+    def __new__(cls):
+        self = super().__new__(cls)
+        self.title.required = True
+        self.year.required = True
+
+
+class CastGenresIDs(Schema):
+    cast = fields.Pluck("ActorSchema", 'id', many=True)
+    genres = fields.Pluck("GenreSchema", 'id', many=True)
+
+
+class MovieBulkCreateSchema(MovieCreateBaseSchema):
     cast = fields.Pluck("ActorSchema", 'name', many=True)
     genres = fields.Pluck("GenreSchema", 'name', many=True)
 
 
-class MovieCreateSchema(MovieBaseSchema):
-    cast = fields.Pluck("ActorSchema", 'id', many=True)
-    genres = fields.Pluck("GenreSchema", 'id', many=True)
+class MovieCreateSchema(MovieCreateBaseSchema, CastGenresIDs):
+    pass
 
+
+class MovieUpdateSchema(MovieBaseSchema, CastGenresIDs):
+    pass

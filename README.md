@@ -22,6 +22,8 @@ https://stackoverflow.com/questions/39891387/better-way-convert-json-to-sqlalche
 https://marshmallow.readthedocs.io/en/stable/examples.html
 https://flask-restful.readthedocs.io/en/latest/
 https://www.jetbrains.com/help/pycharm/http-client-in-product-code-editor.html
+https://swagger.io/specification/
+
 
 
 

@@ -2,37 +2,6 @@ POST http://localhost:5000/movie
 Content-Type: application/json
 
 {
-  "test": "test"
-}
-
-###
-
-
-POST http://localhost:5000/movie
-Content-Type: application/json
-
-{
-  "title": "Wonder Boys",
-  "year": 2000,
-  "cast": [
-    "Michael Douglas",
-    "Tobey Maguire",
-    "Frances McDormand",
-    "Katie Holmes",
-    "Robert Downey, Jr."
-  ],
-  "genres": [
-    "Comedy",
-    "Drama"
-  ]
-}
-
-###
-
-POST http://localhost:5000/movie
-Content-Type: application/json
-
-{
   "title": "Bananas in the Space!",
   "year": 2022,
   "cast": [

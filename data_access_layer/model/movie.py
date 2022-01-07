@@ -19,3 +19,8 @@ class Movie(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(1))
     year = Column(Integer)
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            if hasattr(self, key):
+                setattr(self, key, value)

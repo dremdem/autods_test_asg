@@ -27,7 +27,14 @@ class MovieCreate(Resource):
         return {'hello': 'world'}
 
 
+class MovieUpdateDelete(Resource):
+    def put(self, movie_id: int):
+        services.update_movie(movie_id, request.json)
+        return {'hello': 'world'}
+
+
 api.add_resource(MovieCreate, '/movie')
+api.add_resource(MovieUpdateDelete, '/movie/<int:movie_id>')
 
 
 if __name__ == '__main__':

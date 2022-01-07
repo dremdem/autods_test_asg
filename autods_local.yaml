@@ -48,7 +48,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MovieCreateItem'
+              $ref: '#/components/schemas/MovieUpdateItem'
         description: Inventory item to add
       responses:
         '200':
@@ -79,11 +79,8 @@ paths:
                 $ref: '#/components/schemas/Report'
 components:
   schemas:
-    MovieCreateItem:
+    MovieBaseItem:
       type: object
-      required:
-        - title
-        - year
       properties:
         title:
           type: string
@@ -102,6 +99,21 @@ components:
           items:
             type: integer
             example: 234
+    MovieCreateItem:
+      allOf:
+        - $ref: '#/components/schemas/MovieBaseItem'
+        - type: object
+          required:
+            - title
+            - year
+    MovieUpdateItem:
+      allOf:
+        - $ref: '#/components/schemas/MovieBaseItem'
+        - type: object
+          required:
+            - title
+            - year
+          minProperties: 1
     Report:
       type: array
       items:

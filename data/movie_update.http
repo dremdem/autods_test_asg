@@ -1,0 +1,36 @@
+
+PUT http://localhost:5000/movie/10
+Content-Type: application/json
+
+{
+  "title": "New Life Rescue - 4",
+  "year": 2026,
+  "cast": [
+    25
+  ],
+  "genres": [
+    14
+  ]
+}
+
+###
+PUT http://localhost:5000/movie/11
+Content-Type: application/json
+
+{
+  "title": "New Morning Bath - 2",
+  "year": 2030,
+  "cast": [
+    27,
+    28,
+    29
+  ],
+  "genres": [
+    1,
+    2
+  ]
+}
+
+###
+
+
