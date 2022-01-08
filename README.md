@@ -1,8 +1,93 @@
 # AutoDS test assignment
 
-## API specs 
+## Projects structure
 
-### OpenAPI
+```
+root
+|   autods_local.yaml: OpenAPI project specification
+|   autods_test_asgn.drawio: ER-diagramm of the project.
+|___api
+|     app.py: The main flask app. 
+|__data
+|      amount_of_movies_by_actor_and_year.sql: SQL-query for the report endpoint.
+|      movie_create.http
+|      movie_delete.http
+|      movie_update.http
+|      movies.json
+|      report.http
+|__data_access_layer
+   |   db: SQLLite db-file
+   |   movie_bulk_upload.py: Script for initial data loading.
+   |   schemas.puml: One of possible UML class diagramm (outdated).
+   |   schemas.py: Marshmellow schemas for the data validation.
+   |   services.py: All-in-one services that support the logic and DB operations.           
+   |___migrations: alembic migrations
+   |___model: SQLAlchemy DB models
+```
+
+## Requirements
+
+- Python 3.8
+
+## Installing
+
+### Clone the repo
+
+
+
+## Usage and testing
+
+### Create a movie
+
+```shell
+curl -X POST --location "http://localhost:5000/movie" \
+    -H "Content-Type: application/json" \
+    -d "{
+          \"title\": \"Bananas in the Space!\",
+          \"year\": 2022,
+          \"cast\": [
+            25,
+            31,
+            32
+          ],
+          \"genres\": [
+            14,
+            3,
+            36
+          ]
+        }"
+```
+
+### Update the movie
+
+```shell
+curl -X PUT --location "http://localhost:5000/movie/10" \
+    -H "Content-Type: application/json" \
+    -d "{
+          \"title\": \"New Life Rescue - 4\",
+          \"year\": 2026,
+          \"cast\": [
+            25
+          ],
+          \"genres\": [
+            14
+          ]
+        }"
+```
+
+### Delete the movie
+
+```shell
+curl -X DELETE --location "http://localhost:5000/movie/11"
+```
+
+### Get the report
+
+```shell
+curl -X GET --location "http://localhost:5000/report"
+```
+
+## OpenAPI
 
 https://app.swaggerhub.com/apis/dremdem/autods/1.0.0
 

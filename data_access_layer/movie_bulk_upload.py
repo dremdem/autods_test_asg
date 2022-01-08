@@ -1,6 +1,10 @@
 """
 Bulk upload movies from JSON-file
 
+Example:
+
+python movie_bulk_upload.py ../data/movies.json -d
+
 Import as:
 import data_access_layer.movie_bulk_upload as movie_bulk_upload
 """
