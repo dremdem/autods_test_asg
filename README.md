@@ -28,12 +28,25 @@ root
 ## Requirements
 
 - Python 3.8
+- Pipenv
 
 ## Installing
 
 ### Clone the repo
 
+```shell
+git clone https://github.com/dremdem/autods_test_asg.git test_autods
+cd test_autods
+pipenv install
+pipenv shell
+export PYTHONPATH=$(pwd)
+```
 
+### Populate the data
+
+```shell
+python data_access_layer/movie_bulk_upload.py data/movies.json -d
+```
 
 ## Usage and testing
 

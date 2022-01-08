@@ -13,6 +13,7 @@ marshmallow = "3.9.1"
 flask-sqlalchemy = "*"
 flask-restful = "*"
 tqdm = "*"
+typing-extensions = "*"
 
 [requires]
 python_version = "3.7"
