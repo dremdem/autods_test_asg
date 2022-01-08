@@ -48,56 +48,62 @@ export PYTHONPATH=$(pwd)
 python data_access_layer/movie_bulk_upload.py data/movies.json -d
 ```
 
+### Run the test server
+
+```shell
+python api/app.py
+```
+
 ## Usage and testing
 
 ### Create a movie
 
 ```shell
-curl -X POST --location "http://localhost:5000/movie" \
+curl -X POST --location "http://localhost:8000/movie" \
     -H "Content-Type: application/json" \
-    -d "{
-          \"title\": \"Bananas in the Space!\",
-          \"year\": 2022,
-          \"cast\": [
+    -d '{
+          "title": "Bananas in the Space!",
+          "year": 2022,
+          "cast": [
             25,
             31,
             32
           ],
-          \"genres\": [
+          "genres": [
             14,
             3,
             36
           ]
-        }"
+        }'
 ```
 
 ### Update the movie
 
 ```shell
-curl -X PUT --location "http://localhost:5000/movie/10" \
+curl -X PUT --location "http://localhost:8000/movie/10" \
     -H "Content-Type: application/json" \
-    -d "{
-          \"title\": \"New Life Rescue - 4\",
-          \"year\": 2026,
-          \"cast\": [
+    -d '{
+          "title": "New Life Rescue - 4",
+          "year": 2026,
+          "cast": [
             25
           ],
-          \"genres\": [
+          "genres": [
             14
           ]
-        }"
+        }'
 ```
 
 ### Delete the movie
 
 ```shell
-curl -X DELETE --location "http://localhost:5000/movie/11"
+curl -X DELETE --location "http://localhost:8000/movie/11"
 ```
 
 ### Get the report
 
 ```shell
-curl -X GET --location "http://localhost:5000/report"
+curl -X GET --location "http://localhost:8000/report"
 ```
 
 ## OpenAPI
@@ -121,7 +127,3 @@ https://marshmallow.readthedocs.io/en/stable/examples.html
 https://flask-restful.readthedocs.io/en/latest/
 https://www.jetbrains.com/help/pycharm/http-client-in-product-code-editor.html
 https://swagger.io/specification/
-
-
-
-

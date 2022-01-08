@@ -16,7 +16,7 @@ import data_access_layer.model.cast as cast
 import data_access_layer.model.genre as genre
 import data_access_layer.model.movie as movie
 import data_access_layer.schemas as schemas
-from model.base import Base
+from data_access_layer.model.base import Base
 
 
 session = app.db.session
