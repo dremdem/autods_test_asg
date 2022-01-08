@@ -56,6 +56,8 @@ python api/app.py
 
 ## Usage and testing
 
+Open up another shell
+
 ### Create a movie
 
 ```shell
