@@ -5,7 +5,7 @@ Import as:
 import api.app as app
 """
 
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 
@@ -18,23 +18,30 @@ api = Api(app)
 engine = db.get_engine()
 
 # TODO(*): Split it to the separate modules.
-import data_access_layer.services as services
+import data_access_layer.services as services # noqa
 
 
 class MovieCreate(Resource):
     def post(self):
-        services.create_movie(request.json)
-        return {'hello': 'world'}
+        created_movie = services.create_movie(request.json)
+        return {"message": "The movie successfully created.",
+                "result": created_movie}
 
 
 class MovieUpdateDelete(Resource):
     def put(self, movie_id: int):
-        services.update_movie(movie_id, request.json)
-        return {'hello': 'world'}
+        updated_movie = services.update_movie(movie_id, request.json)
+        if not updated_movie:
+            abort(404)
+        return {"message": "The movie successfully updated.",
+                "result": updated_movie}
 
     def delete(self, movie_id: int):
-        services.delete_movie(movie_id)
-        return {'hello': 'world'}
+        deleted_movie = services.delete_movie(movie_id)
+        if not deleted_movie:
+            abort(404)
+        return {"message": "The movie successfully deleted.",
+                "result": deleted_movie}
 
 
 class Report(Resource):

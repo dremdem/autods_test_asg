@@ -33,12 +33,14 @@ def validate_movie(movie_schema: Type[Schema], data: dict):
 
 def create_movie(data: dict):
     if validate_movie(schemas.MovieCreateSchema, data):
-        create_movie_from_dict(data)
+        db_movie = create_movie_from_dict(data)
+        return schemas.MovieReturnSchema().dump(db_movie)
 
 
 def update_movie(movie_id: int, data: dict):
     if check_movie_exists(movie_id) and validate_movie(schemas.MovieUpdateSchema, data):
-        update_movie_from_dict(movie_id, data)
+        db_movie = update_movie_from_dict(movie_id, data)
+        return schemas.MovieReturnSchema().dump(db_movie)
 
 
 def delete_movie(movie_id: int):
@@ -46,9 +48,11 @@ def delete_movie(movie_id: int):
     with session.begin():
         delete_cast_genres_from_movie(movie_id)
         db_movie = session.get(movie.Movie, movie_id)
+        json_movie = schemas.MovieReturnSchema().dump(db_movie)
         if db_movie:
             session.delete(db_movie)
     session.commit()
+    return json_movie
 
 
 def get_or_create(model, defaults=None, is_commit=False, **kwargs):
@@ -110,7 +114,7 @@ def create_bulk_movie_from_dict(json_movie: dict) -> None:
     session.commit()
 
 
-def create_movie_from_dict(json_movie: dict) -> None:
+def create_movie_from_dict(json_movie: dict) -> movie.Movie:
     db_movie = movie.Movie(
         title=json_movie['title'],
         year=json_movie['year'])
@@ -121,9 +125,10 @@ def create_movie_from_dict(json_movie: dict) -> None:
     for genre_id in json_movie["genres"]:
         session.add(genre.GenreMovie(genre_id=genre_id, movie_id=db_movie.id))
     session.commit()
+    return db_movie
 
 
-def update_movie_from_dict(movie_id, json_movie: dict) -> None:
+def update_movie_from_dict(movie_id, json_movie: dict) -> movie.Movie:
     session.commit()
     with session.begin():
         db_movie = session.query(movie.Movie).get(movie_id)
@@ -134,6 +139,7 @@ def update_movie_from_dict(movie_id, json_movie: dict) -> None:
         for genre_id in json_movie["genres"]:
             session.add(get_or_create(genre.GenreMovie, movie_id=movie_id, genre_id=genre_id))
     session.commit()
+    return db_movie
 
 
 def delete_cast_genres_from_movie(movie_id: int) -> None:

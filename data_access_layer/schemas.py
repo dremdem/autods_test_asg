@@ -5,9 +5,9 @@ Import as:
 import data_access_layer.schemas as schemas
 """
 
-ACTOR_NAME_STOP_CHARS = '$()?'
-
 from marshmallow import Schema, fields, ValidationError
+
+ACTOR_NAME_STOP_CHARS = '$()?'
 
 
 class GenreSchema(Schema):
@@ -48,6 +48,10 @@ class CastGenresIDs(Schema):
 class MovieBulkCreateSchema(MovieCreateBaseSchema):
     cast = fields.Pluck("ActorSchema", 'name', many=True)
     genres = fields.Pluck("GenreSchema", 'name', many=True)
+
+
+class MovieReturnSchema(MovieCreateBaseSchema):
+    id = fields.Integer(required=True)
 
 
 class MovieCreateSchema(MovieCreateBaseSchema, CastGenresIDs):
